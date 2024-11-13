@@ -6,5 +6,5 @@ import lombok.Data;
 public class CurrencyModel {
     String symbol;
     Double price;
-    Integer timestamp;
+    Long timestamp;
 }
