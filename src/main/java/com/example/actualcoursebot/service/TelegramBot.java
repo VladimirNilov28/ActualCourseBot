@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot{
-    private BotConfig botConfig;
+    private final BotConfig botConfig;
 
     @Override
     public String getBotUsername() {
@@ -39,10 +39,11 @@ public class TelegramBot extends TelegramLongPollingBot{
                     break;
                 default:
                     try {
-                        currency = CurrencyService.getCurrencyRate(currency.trim().toUpperCase(), currencyModel);
+                        currency = CurrencyService.getCurrencyRate(messageText.trim().toUpperCase(), currencyModel);
                     } catch (IOException e) {
-                        sendMessage(chatId, "There was an error getting the exchange rate. Please try again later.");
+                        sendMessage(chatId, "There was an error getting the exchange rate. Please try input correct pair\nFor example: BTCUSDT.");
                     }
+                    sendMessage(chatId, currency);
             }
 
 
@@ -67,7 +68,7 @@ public class TelegramBot extends TelegramLongPollingBot{
         try {
             execute(sendMessage);
         }catch (TelegramApiException e) {
-
+            e.printStackTrace();
         }
     }
 }
